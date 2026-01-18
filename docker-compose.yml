@@ -1,0 +1,37 @@
+# Xim Docker Compose Configuration (HTTP)
+#
+# Usage:
+#   1. Set XIM_FFXI_PATH to your "FINAL FANTASY XI" folder
+#      (the one containing ROM/, ROM2/, ROM3/, sound/, FFXiMain.dll, etc.)
+#   2. Build: docker-compose build
+#   3. Run:   docker-compose up -d
+#   4. Open:  http://localhost:8083
+#
+# Stop:
+#   docker-compose down
+#
+# NOTE: This HTTP version is for localhost use only. The browser Cache API
+# won't work over HTTP from other devices. For network access, use the
+# HTTPS version (docker-compose.https.yml).
+
+version: '3.8'
+
+services:
+  xim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: xim:latest
+    container_name: xim-server
+    ports:
+      - "8083:80"
+    volumes:
+      - ${XIM_FFXI_PATH}:/usr/share/nginx/html/ffxi:ro
+    restart: unless-stopped
+    
+    # Optional resource limits
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 256M
+    #       cpus: '0.5'

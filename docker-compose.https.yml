@@ -1,0 +1,39 @@
+# Xim Docker Compose Configuration (HTTPS)
+#
+# Usage:
+#   1. Set XIM_FFXI_PATH to your "FINAL FANTASY XI" folder
+#      (the one containing ROM/, ROM2/, ROM3/, sound/, FFXiMain.dll, etc.)
+#   2. Build: docker-compose -f docker-compose.https.yml build
+#   3. Run:   docker-compose -f docker-compose.https.yml up -d
+#   4. Open:  https://YOUR_SERVER_IP:8443
+#      (Accept the self-signed certificate warning in your browser)
+#
+# Stop:
+#   docker-compose -f docker-compose.https.yml down
+#
+# NOTE: When accessing from another computer, use https:// and accept
+# the browser's certificate warning. This is required for the Cache API
+# to work in non-localhost environments.
+
+version: '3.8'
+
+services:
+  xim:
+    build:
+      context: .
+      dockerfile: Dockerfile.https
+    image: xim:https
+    container_name: xim-server-https
+    ports:
+      - "8081:80"    # HTTP (fallback, Cache API won't work)
+      - "8443:443"   # HTTPS (use this for Cache API support)
+    volumes:
+      - ${XIM_FFXI_PATH}:/usr/share/nginx/html/ffxi:ro
+    restart: unless-stopped
+    
+    # Optional resource limits
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 256M
+    #       cpus: '0.5'
