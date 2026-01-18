@@ -35,12 +35,12 @@ xim-docker/
 ├── run.sh
 ├── run-https.sh
 ├── .env.example
-├── build.gradle.kts        ← From source.zip
-├── settings.gradle.kts     ← From source.zip
-├── gradle.properties       ← From source.zip
-├── gradle/                 ← From source.zip
-├── src/                    ← From source.zip
-└── webpack.config.d/       ← From source.zip
+├── build.gradle.kts        
+├── settings.gradle.kts     
+├── gradle.properties       
+├── gradle/                 
+├── src/                    <--Extracted from src.zip
+└── webpack.config.d/       
 ```
 
 **Important:** Extract the Xim source code into this same directory so the Dockerfile can access it.
